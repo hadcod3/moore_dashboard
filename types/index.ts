@@ -24,6 +24,9 @@ export type CreateProductCategoryParams = {
 export type CreateGearCategoryParams = {
     gearCategoryName: string
 }
+export type CreateVendorCategoryParams = {
+    vendorCategoryName: string
+}
 
 // ====== ORDER PARAMS
 export type CheckoutOrderParams = {

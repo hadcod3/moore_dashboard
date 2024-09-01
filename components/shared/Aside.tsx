@@ -2,7 +2,7 @@ import React from 'react'
 import AsideItems from './AsideItems'
 import Image from 'next/image'
 import Link from 'next/link'
-import { UserButton } from '@clerk/nextjs'
+// import { UserButton } from '@clerk/nextjs'
 
 const Aside = () => {
 
@@ -19,7 +19,7 @@ const Aside = () => {
                 </Link>
                 <AsideItems/>
                 <div className='w-8 h-8 flex items-center justify-center'>
-                    <UserButton/>
+                    {/* <UserButton/> */}
                 </div>
             </div>
         </nav>

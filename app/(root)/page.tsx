@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllProducts } from "@/lib/actions/product.actions";
 import { getAllGears } from "@/lib/actions/gear.actions";
+import PacketCategoryFilter from "@/components/shared/PacketCategoryFilter";
+import CategoryCollection from "@/components/shared/CategoryCollection";
 
 export default async function Home({ searchParams }: SearchParamProps) {
     const page = Number(searchParams?.page) || 1;
@@ -32,8 +34,12 @@ export default async function Home({ searchParams }: SearchParamProps) {
 
     return (
         <>
-            <section className="bg-primary-100 bg-dotted-pattern bg-contain py-5 md:py-10">
-                
+            <section className="flex flex-col gap-4 bg-contain py-4 md:py-6 px-5">
+                <h2 className="h2-bold text-secondary-300 mb-7">Dashboard</h2>
+                <CategoryCollection collectionTypes="Packet_Categories"/>
+                <CategoryCollection collectionTypes="Product_Categories"/>
+                <CategoryCollection collectionTypes="Gear_Categories"/>
+                <CategoryCollection collectionTypes="Vendor_Categories"/>
             </section>
         </>
     );

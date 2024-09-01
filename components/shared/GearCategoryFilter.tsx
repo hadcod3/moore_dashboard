@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { getAllGearCategories } from "@/lib/actions/gearCategory.actions";
+import { getAllGearCategories } from "@/lib/actions/category.actions";
 import { IGearCategory } from "@/lib/database/models/category.model";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";

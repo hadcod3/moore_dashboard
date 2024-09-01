@@ -159,7 +159,7 @@ const PacketForm = ({ type, packet, packetId }: PacketFormProps) => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-100 px-4 py-2">
                       <Image
                         src="/assets/icons/dollar.svg"
                         alt="dollar"
@@ -167,7 +167,7 @@ const PacketForm = ({ type, packet, packetId }: PacketFormProps) => {
                         height={24}
                         className="filter-grey"
                       />
-                      <Input type="number" placeholder="Price" {...field} className="p-regular-16 border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0" />
+                      <Input type="number" placeholder="Price" {...field} className="p-regular-16 border-0 bg-grey-100 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0" />
                     </div>
 
                   </FormControl>

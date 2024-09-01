@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { getAllProductCategories } from "@/lib/actions/productCategory.actions";
+import { getAllProductCategories } from "@/lib/actions/category.actions";
 import { IProductCategory } from "@/lib/database/models/category.model";
 import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";

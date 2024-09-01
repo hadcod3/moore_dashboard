@@ -29,3 +29,14 @@ const GearCategorySchema = new Schema({
   name: { type: String, required: true, unique: true },
 })
 export const GearCategory = models.GearCategory || model('GearCategory', GearCategorySchema);
+
+// Vendor Category Model
+export interface IVendorCategory extends Document {
+  _id: string;
+  name: string; 
+}
+const VendorCategorySchema = new Schema({
+  name: { type: String, required: true, unique: true },
+})
+export const VendorCategory = models.VendorCategory || model('VendorCategory', VendorCategorySchema);
+

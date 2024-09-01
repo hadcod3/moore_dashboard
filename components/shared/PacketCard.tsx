@@ -15,7 +15,7 @@ const PacketCard = ({ event }: CardProps) => {
         <Link 
             href={`/packets/${event._id}`}
             style={{backgroundImage: `url(${event.imageUrl})`}}
-            className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500"
+            className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-100"
         />
 
         <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-white p-3 shadow-sm transition-all">

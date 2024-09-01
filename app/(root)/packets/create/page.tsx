@@ -1,5 +1,5 @@
 import PacketForm from "@/components/shared/PacketForm"
-import { auth } from "@clerk/nextjs"
+// import { auth } from "@clerk/nextjs"
 
 const CreatePacket = () => {
  

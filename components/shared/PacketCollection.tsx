@@ -50,9 +50,9 @@ const PacketCollection = ({
           )}
         </div>
       ) : (
-        <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-50 py-28 text-center">
-          <h3 className="p-bold-20 md:h5-bold">{emptyTitle}</h3>
-          <p className="p-regular-14">{emptyStateSubtext}</p>
+        <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-100 py-28 text-center">
+          <h3 className="p-bold-20 md:h5-bold text-secondary-300">{emptyTitle}</h3>
+          <p className="p-regular-14 text-primary-300">{emptyStateSubtext}</p>
         </div>
       )} 
     </>
