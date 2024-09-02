@@ -1,5 +1,5 @@
 'use client'
-import { startTransition, useEffect, useState } from "react"
+import { startTransition, Suspense, useEffect, useState } from "react"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -133,20 +133,20 @@ const CategoryCollection = ({ collectionTypes }: CategoryCollectionProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        {categories.length > 0 ? (
-          <div className="flex gap-4">
-            {categories.map((category) => {
-                return (
-                  <h1 key={category._id} className="chip">{category.name}</h1>
-                )
-              })}
-          </div>
-        ) : (
-          <div className="flex-center wrapper min-h-[100px] w-full flex-col gap-3 text-center">
-            <h3 className="p-bold-20 md:h5-bold text-secondary-300">No {getCategoryName()} Found</h3>
-            <p className="p-regular-14 text-primary-300">Check Later</p>
-          </div>
-        )}
+          {categories.length > 0 ? (
+              <div className="flex gap-4 flex-wrap items-start">
+                {categories.map((category) => {
+                    return (
+                      <h1 key={category._id} className="chip line-clamp-1">{category.name}</h1>
+                    )
+                  })}
+              </div>
+            ) : (
+              <div className="flex-center wrapper min-h-[100px] w-full flex-col gap-3 text-center">
+                <h3 className="p-bold-20 md:h5-bold text-secondary-300">No {getCategoryName()} Found</h3>
+                <p className="p-regular-14 text-primary-300">Check Later</p>
+              </div>
+            )}
       </section>
     )
 }

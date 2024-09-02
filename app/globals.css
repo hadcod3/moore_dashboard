@@ -228,7 +228,7 @@ body {
   }
 
   .select-item {
-    @apply  py-3 cursor-pointer focus:bg-primary-100;
+    @apply py-3 cursor-pointer focus:bg-primary-100;
   }
 
   .toggle-switch {
@@ -236,7 +236,7 @@ body {
   }
 
   .chip {
-    @apply border border-primary-300 rounded-full p-regular-16 py-2 px-4  ;
+    @apply border border-primary-100 py-2 px-5 rounded-full ;
   }
 }
 

@@ -7,7 +7,7 @@ export default function RootLayout({
   }>) {
     return (
         <div className="flex h-screen flex-col">
-            <Aside/>
+            <Aside/> 
             <main className="flex-1 pl-20 pt-4">{children}</main>
         </div>
         

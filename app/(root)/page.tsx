@@ -7,6 +7,8 @@ import { getAllProducts } from "@/lib/actions/product.actions";
 import { getAllGears } from "@/lib/actions/gear.actions";
 import PacketCategoryFilter from "@/components/shared/PacketCategoryFilter";
 import CategoryCollection from "@/components/shared/CategoryCollection";
+import { Suspense } from "react";
+import Spinner from "@/components/shared/Spinner";
 
 export default async function Home({ searchParams }: SearchParamProps) {
     const page = Number(searchParams?.page) || 1;
