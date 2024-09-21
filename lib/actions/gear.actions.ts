@@ -9,6 +9,7 @@ import {
     CreateGearsParams, 
     DeleteGearParams, 
     GetAllGearsParams, 
+    GetRelatedGearsByCategoryParams, 
     UpdateGearsParams 
 } from '@/types'
 
@@ -106,5 +107,32 @@ export async function getAllGears({ query, limit = 6, category, page }: GetAllGe
     } catch (error) {
       handleError(error)
     }
+}
+
+// GET RELATED GEAR: GEAR WITH SAME CATEGORY
+export async function getRelatedGearsByCategory({
+  categoryId,
+  gearId,
+  limit = 3,
+  page = 1,
+}: GetRelatedGearsByCategoryParams) {
+  try {
+    await connectToDatabase()
+
+    const skipAmount = (Number(page) - 1) * limit
+    const conditions = { $and: [{ category: categoryId }, { _id: { $ne: gearId } }] }
+
+    const gearsQuery = Gear.find(conditions)
+      .sort({ createdAt: 'desc' })
+      .skip(skipAmount)
+      .limit(limit)
+
+    const gears = await populateGear(gearsQuery)
+    const gearsCount = await Gear.countDocuments(conditions)
+
+    return { data: JSON.parse(JSON.stringify(gears)), totalPages: Math.ceil(gearsCount / limit) }
+  } catch (error) {
+    handleError(error)
   }
+}
   

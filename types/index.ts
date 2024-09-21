@@ -215,6 +215,17 @@ export type GetAllGearsParams = {
     limit: number
     page: number
 }
+export type GetGearsByUserParams = {
+    userId: string
+    limit?: number
+    page: number
+}
+export type GetRelatedGearsByCategoryParams = {
+    categoryId: string
+    gearId: string
+    limit?: number
+    page: number | string
+}
 export type Gear = {
     _id: string
     title: string
