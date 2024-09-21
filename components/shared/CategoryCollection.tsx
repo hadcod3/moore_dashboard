@@ -108,6 +108,8 @@ const CategoryCollection = ({ collectionTypes }: CategoryCollectionProps) => {
           return null;
     }}
 
+    const total = 2
+
     return (
       <section className="p-4 border-[0.1px] border-grey-200 rounded-xl">
         <div className="flex justify-between items-center mb-4 pb-2 border-b border-grey-200">
@@ -116,6 +118,7 @@ const CategoryCollection = ({ collectionTypes }: CategoryCollectionProps) => {
             <h1 className="text-3xl text-secondary-400 font-bold">
               {getCategoryName()}
             </h1>
+            <h3 className="flex items-center gap-1">total :<p className="font-aleo">{categories.length} categories</p></h3>
           </div>
           <AlertDialog>
             <AlertDialogTrigger className="p-medium-14 flex w-fit h-fit rounded-sm p-3 button-ic">+ Add New Category</AlertDialogTrigger>

@@ -18,6 +18,7 @@ import {
 import { deletePacket } from '@/lib/actions/packet.actions'
 import { deleteProduct } from '@/lib/actions/product.actions'
 import { deleteGear } from '@/lib/actions/gear.actions'
+import { Input } from '../ui/input'
 
 type deleteProps = {
     itemId: string
@@ -37,8 +38,13 @@ export const DeleteConfirmation = ({ itemId, deleteType } : deleteProps ) => {
         <AlertDialogContent className="bg-white">
             <AlertDialogHeader>
             <AlertDialogTitle className='text-secondary-300'>Are you sure you want to delete?</AlertDialogTitle>
-            <AlertDialogDescription className="p-regular-16 text-primary-200">
-                This will permanently delete this event
+            <AlertDialogDescription className="">
+                <Input
+                    id='deleteReason'
+                    placeholder="the reason why this content was removed?"
+                    className='py-2 textarea'
+                />
+                <p className='p-regular-12 text-primary-300'>This will permanently delete this event</p>
             </AlertDialogDescription>
             </AlertDialogHeader>
 

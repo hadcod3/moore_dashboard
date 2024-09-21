@@ -24,13 +24,10 @@ const PacketCard = async ({ item }: PacketProps) => {
             <Link 
                 href={`/packets/${item._id}`}
                 style={{backgroundImage: `url(${item.imageUrl})`}}
-                className="flex-center flex-grow bg-gray-50 bg-cover bg-center rounded-t-[15px] text-grey-100"
+                className="flex-center flex-grow bg-gray-50 bg-cover bg-center rounded-t-[15px] text-grey-100 shadow-inner-bold"
             />
 
             <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-white/30 p-3 backdrop-blur-lg shadow-sm transition-all">
-                <Link href={`/packets/${item._id}/update`}>
-                <Image src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
-                </Link>
                 <DeleteConfirmation itemId={item._id} deleteType='Packet'/>
             </div>
 

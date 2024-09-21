@@ -20,9 +20,6 @@ const ProductCard = ({ item }: ProductProps) => {
             />
 
             <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl  bg-white/30 p-3 backdrop-blur-lg shadow-sm transition-all">
-              <Link href={`/products/${item._id}/update`}>
-                  <Image src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
-              </Link>
               <DeleteConfirmation itemId={item._id} deleteType="Product"/>
             </div>
 

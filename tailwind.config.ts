@@ -68,6 +68,7 @@ module.exports = withUt({
         },
         boxShadow: {
           'br-curve': '-3px -3px 0px 3px rgba(0,0,0,1)',
+          'inner-bold': 'inset 0px -50px 50px -45px rgba(0,0,0,0.5)'
         },
         fontFamily: {
             poppins: ['var(--font-poppins)'],

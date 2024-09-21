@@ -216,7 +216,7 @@ body {
   } 
 
   .textarea {
-    @apply flex flex-1 placeholder:text-grey-300 p-regular-16 px-5 py-3 bg-white border border-b-2 border-primary-100  focus-visible:ring-transparent !important;
+    @apply flex flex-1 placeholder:text-primary-100 text-primary-300 p-regular-16 px-5 py-3 bg-white border border-b-2 border-primary-100  focus-visible:ring-transparent !important;
   }
 
   .button {

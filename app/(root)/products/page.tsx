@@ -9,7 +9,7 @@ const Products = async ({ searchParams }: SearchParamProps) => {
     const searchText = (searchParams?.query as string) || '';
     const category = (searchParams?.category as string) || '';
     
-    const product = await getAllProducts({
+    const products = await getAllProducts({
         query: searchText,
         category,
         page,
@@ -22,19 +22,20 @@ const Products = async ({ searchParams }: SearchParamProps) => {
                 <div>
                     <p className="text-xl font-playfair text-primary-300">collection of</p>
                     <p className="h2-bold text-secondary-300">Product</p>
+                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{products?.data.length} items</p></h3>
                 </div>
                 <div className="flex w-full flex-col gap-5 py-5 md:flex-row">
                     <Search placeholder="Search"/>
                     <ProductCategoryFilter/>
                 </div>
                 <ProductCollection
-                    data={product?.data}
+                    data={products?.data}
                     emptyTitle="No Product Found"
                     emptyStateSubtext="Check later"
                     collectionType="All_Products"
                     limit={15}
                     page={page}
-                    totalPages={product?.totalPages}
+                    totalPages={products?.totalPages}
                 />
             </section>
         </>
