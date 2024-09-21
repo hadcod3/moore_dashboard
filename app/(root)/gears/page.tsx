@@ -1,10 +1,8 @@
 import GearCategoryFilter from "@/components/shared/GearCategoryFilter"
 import GearCollection from "@/components/shared/GearCollection"
 import Search from "@/components/shared/Search"
-import { Button } from "@/components/ui/button"
 import { getAllGears } from "@/lib/actions/gear.actions"
 import { SearchParamProps } from "@/types"
-import Link from "next/link"
  
 const Gears = async ({ searchParams }: SearchParamProps) => {
     const page = Number(searchParams?.page) || 1;
@@ -20,31 +18,25 @@ const Gears = async ({ searchParams }: SearchParamProps) => {
 
     return (
         <>
-            <section className="bg-primary-100 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
-                <div className="flex wrapper justify-between flex-row">
-                    <h2 className="h2-bold text-primary-500">Gears</h2>
-                    <Link href="gears/create" >
-                        <Button className="rounded-full bg-primary-500 text-primary-100">
-                            + Create
-                        </Button>
-                    </Link>
+            <section className="wrapper my-8 flex flex-col md:gap-5">
+                <div>
+                    <p className="text-xl font-playfair text-primary-300">collection of</p>
+                    <p className="h2-bold text-secondary-300">Gear</p>
                 </div>
-                <div className="flex wrapper flex-col gap-5 py-5 md:flex-row">
-                    <Search placeholder="Search Gears"/>
+                <div className="flex w-full flex-col gap-5 py-5 md:flex-row">
+                    <Search placeholder="Search"/>
                     <GearCategoryFilter/>
                 </div>
-            </section>
-            <div className="wrapper my-8">
                 <GearCollection
                     data={gears?.data}
                     emptyTitle="No Gears Found"
                     emptyStateSubtext="Check later"
-                    collectionType="All_Products"
+                    collectionType="All_Gears"
                     limit={15}
                     page={page}
                     totalPages={gears?.totalPages}
                 />
-            </div>
+            </section>
             </>
     )
 }

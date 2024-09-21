@@ -13,6 +13,12 @@ export type UpdateUserParams = {
     username: string
     photo: string
 }
+export type GetAllUsersAsVendorsParams = {
+    query: string
+    category: string
+    limit: number
+    page: number
+}
   
 // ====== CATEGORY PARAMS
 export type CreatePacketCategoryParams = {

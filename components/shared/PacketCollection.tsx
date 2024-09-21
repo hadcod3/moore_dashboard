@@ -5,7 +5,7 @@ import Pagination from './Pagination'
 import { Button } from '../ui/button'
 import Link from 'next/link'
 
-type CollectionProps = {
+type PacketCollectionProps = {
   data: IPacket[],
   emptyTitle: string,
   emptyStateSubtext: string,
@@ -13,50 +13,50 @@ type CollectionProps = {
   page: number | string,
   totalPages?: number,
   urlParamName?: string,
-  collectionType?: 'All_Packets' | 'Sample_Packets'
+  collectionType?: 'Packets_Organized' | 'All_Packets' | 'Sample_Packets'
 }
  
 const PacketCollection = ({
-  data,
-  emptyTitle,
-  emptyStateSubtext,
-  page,
-  totalPages = 0,
-  collectionType,
-  urlParamName,
-}: CollectionProps) => {
-  return (
-    <>
-      {data.length > 0 ? (
-        <div className="flex flex-col items-center gap-10">
-          <ul className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
-            {data.map((item) => {
-              return (
-                <li key={item._id} className="flex justify-center">
-                  <PacketCard event={item}/>
-                </li>
-              )
-            })}
-          </ul>
+    data,
+    emptyTitle,
+    emptyStateSubtext,
+    page,
+    totalPages = 0,
+    collectionType,
+    urlParamName,
+}: PacketCollectionProps) => {
+    return (
+        <>
+            {data.length > 0 ? (
+                <div className="flex flex-col items-center gap-10">
+                    <ul className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
+                        {data.map((item) => {
+                            return (
+                                <li key={item._id} className="flex justify-center">
+                                      <PacketCard item={item}/>
+                                </li>
+                            )
+                        })}
+                    </ul>
 
-          {totalPages > 1 && collectionType !== 'Sample_Packets' && (
-                <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
-          )}
+                    {totalPages > 1 && collectionType !== 'Sample_Packets' && (
+                        <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
+                    )}
 
-          { collectionType === 'Sample_Packets' && (
-                <Button size="lg" asChild className="button w-full sm:w-fit">
-                    <Link href="/packets">See More Packets</Link>
-                </Button>
-          )}
-        </div>
-      ) : (
-        <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-100 py-28 text-center">
-          <h3 className="p-bold-20 md:h5-bold text-secondary-300">{emptyTitle}</h3>
-          <p className="p-regular-14 text-primary-300">{emptyStateSubtext}</p>
-        </div>
-      )} 
-    </>
-  )
+                    { collectionType === 'Sample_Packets' && (
+                        <Button size="lg" asChild className="button-ic w-full sm:w-fit">
+                            <Link href="/packets">See More Packets</Link>
+                        </Button>
+                    )}
+                </div>
+            ) : (
+                <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-50 py-28 text-center">
+                    <h3 className="p-bold-20 md:h5-bold text-secondary-300">{emptyTitle}</h3>
+                    <p className="p-regular-14 text-primary-500">{emptyStateSubtext}</p>
+                </div>
+            )} 
+        </>
+    )
 }
 
 export default PacketCollection

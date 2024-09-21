@@ -1,81 +1,122 @@
-// 'use server'
+'use server'
 
-// import { revalidatePath } from 'next/cache'
+import { revalidatePath } from 'next/cache'
+import { connectToDatabase } from '@/lib/database'
+import User from '@/lib/database/models/user.model'
+import Order from '@/lib/database/models/order.model'
+import { handleError } from '@/lib/utils'
+import { CreateUserParams, GetAllUsersAsVendorsParams, UpdateUserParams } from '@/types'
+import { VendorCategory } from '../database/models/category.model'
+import Packet from '@/lib/database/models/packet.model'
 
-// import { connectToDatabase } from '@/lib/database'
-// import User from '@/lib/database/models/user.model'
-// import Order from '@/lib/database/models/order.model'
-// import Event from '@/lib/database/models/packet.model'
-// import { handleError } from '@/lib/utils'
+const getCategoryByName = async (name: string) => {
+    return VendorCategory.findOne({ name: { $regex: name, $options: 'i' } })
+} 
 
-// import { CreateUserParams, UpdateUserParams } from '@/types'
+const populateVendor = (query: any) => {
+    return query
+    .populate({ path: 'category', model: VendorCategory, select: '_id name' })
+}
 
-// export async function createUser(user: CreateUserParams) {
-//   try {
-//     await connectToDatabase()
 
-//     const newUser = await User.create(user)
-//     return JSON.parse(JSON.stringify(newUser))
-//   } catch (error) {
-//     handleError(error)
-//   }
-// }
+export async function createUser(user: CreateUserParams) {
+  try {
+    await connectToDatabase()
 
-// export async function getUserById(userId: string) {
-//   try {
-//     await connectToDatabase()
+    const newUser = await User.create(user)
+    return JSON.parse(JSON.stringify(newUser))
+  } catch (error) {
+    handleError(error)
+  }
+}
 
-//     const user = await User.findById(userId)
+export async function getUserById(userId: string) {
+  try {
+    await connectToDatabase()
 
-//     if (!user) throw new Error('User not found')
-//     return JSON.parse(JSON.stringify(user))
-//   } catch (error) {
-//     handleError(error)
-//   }
-// }
+    const user = await User.findById(userId)
 
-// export async function updateUser(clerkId: string, user: UpdateUserParams) {
-//   try {
-//     await connectToDatabase()
+    if (!user) throw new Error('User not found')
+    return JSON.parse(JSON.stringify(user))
+  } catch (error) {
+    handleError(error)
+  }
+}
 
-//     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, { new: true })
+export async function updateUser(clerkId: string, user: UpdateUserParams) {
+  try {
+    await connectToDatabase()
 
-//     if (!updatedUser) throw new Error('User update failed')
-//     return JSON.parse(JSON.stringify(updatedUser))
-//   } catch (error) {
-//     handleError(error)
-//   }
-// }
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, user, { new: true })
 
-// export async function deleteUser(clerkId: string) {
-//   try {
-//     await connectToDatabase()
+    if (!updatedUser) throw new Error('User update failed')
+    return JSON.parse(JSON.stringify(updatedUser))
+  } catch (error) {
+    handleError(error)
+  }
+}
 
-//     // Find user to delete
-//     const userToDelete = await User.findOne({ clerkId })
+export async function deleteUser(clerkId: string) {
+  try {
+    await connectToDatabase()
 
-//     if (!userToDelete) {
-//       throw new Error('User not found')
-//     }
+    // Find user to delete
+    const userToDelete = await User.findOne({ clerkId })
 
-//     // Unlink relationships
-//     await Promise.all([
-//       // Update the 'events' collection to remove references to the user
-//       Event.updateMany(
-//         { _id: { $in: userToDelete.events } },
-//         { $pull: { organizer: userToDelete._id } }
-//       ),
+    if (!userToDelete) {
+      throw new Error('User not found')
+    }
 
-//       // Update the 'orders' collection to remove references to the user
-//       Order.updateMany({ _id: { $in: userToDelete.orders } }, { $unset: { buyer: 1 } }),
-//     ])
+    // Unlink relationships
+    await Promise.all([
+      // Update the 'events' collection to remove references to the user
+      Packet.updateMany(
 
-//     // Delete user
-//     const deletedUser = await User.findByIdAndDelete(userToDelete._id)
-//     revalidatePath('/')
+        { _id: { $in: userToDelete.events } },
+        { $pull: { organizer: userToDelete._id } }
+      ),
 
-//     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null
-//   } catch (error) {
-//     handleError(error)
-//   }
-// }
+      // Update the 'orders' collection to remove references to the user
+      Order.updateMany({ _id: { $in: userToDelete.orders } }, { $unset: { buyer: 1 } }),
+    ])
+
+    // Delete user
+    const deletedUser = await User.findByIdAndDelete(userToDelete._id)
+    revalidatePath('/')
+
+    return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null
+  } catch (error) {
+    handleError(error)
+  }
+
+}
+
+// GET ALL USERS AS VENDORS
+export async function getAllVendors({ query, limit = 30, category, page }: GetAllUsersAsVendorsParams) {
+    try {
+      await connectToDatabase()
+  
+      const usernameCondition = query ? { username: { $regex: query, $options: 'i' } } : {}
+      const categoryCondition = category ? await getCategoryByName(category) : null
+      const conditions = {
+        $and: [usernameCondition, categoryCondition ? { category: categoryCondition._id } : {}],
+      }
+
+      const skipAmount = (Number(page) - 1) * limit
+      const vendorsQuery = User.find(conditions)
+        .sort({ createdAt: 'desc' })
+        .skip(skipAmount)
+        .limit(limit)
+
+      const vendors = await populateVendor(vendorsQuery)
+      const vendorsCount = await User.countDocuments(conditions)
+  
+      return {
+        data: JSON.parse(JSON.stringify(vendors)),
+        totalPages: Math.ceil(vendorsCount / limit),
+      }
+    } catch (error) {
+      handleError(error)
+    }
+}
+

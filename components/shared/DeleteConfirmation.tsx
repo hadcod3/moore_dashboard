@@ -3,26 +3,28 @@
 import { useTransition } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
+
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { deletePacket } from '@/lib/actions/packet.actions'
 import { deleteProduct } from '@/lib/actions/product.actions'
 import { deleteGear } from '@/lib/actions/gear.actions'
 
-type DeleteProps = {
-    deleteType?: 'Packets' | 'Products' | 'Gears'
+type deleteProps = {
+    itemId: string
+    deleteType: "Packet" | "Product" | "Gear"
 }
 
-export const DeleteConfirmation: React.FC<{ itemId: string } & DeleteProps> = ({ itemId, deleteType }) => {
+export const DeleteConfirmation = ({ itemId, deleteType } : deleteProps ) => {
     const pathname = usePathname()
     let [isPending, startTransition] = useTransition()
 
@@ -34,30 +36,28 @@ export const DeleteConfirmation: React.FC<{ itemId: string } & DeleteProps> = ({
 
         <AlertDialogContent className="bg-white">
             <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete?</AlertDialogTitle>
-            <AlertDialogDescription className="p-regular-16 text-grey-600">
-                This will permanently delete this packet
+            <AlertDialogTitle className='text-secondary-300'>Are you sure you want to delete?</AlertDialogTitle>
+            <AlertDialogDescription className="p-regular-16 text-primary-200">
+                This will permanently delete this event
             </AlertDialogDescription>
             </AlertDialogHeader>
 
             <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-                onClick={async () => {
-                    startTransition(async () => {
-                        if (deleteType === 'Packets') {
-                            await deletePacket({ packetId: itemId, path: pathname });
-                        } else if (deleteType === 'Products') {
-                            await deleteProduct({ productId: itemId, path: pathname });
-                        } else if (deleteType === 'Gears') {
-                            await deleteGear({ gearId: itemId, path: pathname });
-                        }
-                    });
-                }}
-            >
+            <AlertDialogAction className='bg-danger text-white'
+                onClick={() =>
+                startTransition(async () => {
+                    {deleteType === "Packet" ? (
+                        await deletePacket({ packetId : itemId, path: pathname })
+                    ) : deleteType === "Product" ? (
+                        await deleteProduct({ productId : itemId, path: pathname })
+                    ) : (
+                        await deleteGear({ gearId : itemId, path: pathname })
+                    )}
+                })
+                }>
                 {isPending ? 'Deleting...' : 'Delete'}
             </AlertDialogAction>
-
             </AlertDialogFooter>
         </AlertDialogContent>
         </AlertDialog>

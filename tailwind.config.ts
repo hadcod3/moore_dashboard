@@ -66,6 +66,9 @@ module.exports = withUt({
             foreground: 'hsl(var(--card-foreground))',
             },
         },
+        boxShadow: {
+          'br-curve': '-3px -3px 0px 3px rgba(0,0,0,1)',
+        },
         fontFamily: {
             poppins: ['var(--font-poppins)'],
             playfair: ['var(--font-playfair_display)'],
