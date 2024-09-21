@@ -12,7 +12,7 @@ type ProductProps = {
 const ProductCard = ({ item }: ProductProps) => {
     
     return (
-        <div className="relative flex min-h-[270px] w-[180px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg ">
+        <div className="relative flex min-h-[270px] w-[180px] flex-col overflow-hidden rounded-[15px] bg-white border-b-4 border-primary-200">
             <Link 
                 href={`/products/${item._id}`}
                 style={{backgroundImage: `url(${item.imageUrl})`}}

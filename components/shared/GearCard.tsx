@@ -10,9 +10,9 @@ type GearProps = {
 }
 
 const GearCard = ({ item }: GearProps) => {
-    
+     
     return (
-        <div className="relative flex min-h-[270px] w-[180px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg ">
+        <div className="relative flex min-h-[270px] w-[180px] flex-col overflow-hidden rounded-[15px] bg-white border-b-4 border-primary-200">
             <Link 
                 href={`/gears/${item._id}`}
                 style={{backgroundImage: `url(${item.imageUrl})`}}
@@ -22,8 +22,7 @@ const GearCard = ({ item }: GearProps) => {
             <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl bg-white/30 p-3 backdrop-blur-lg shadow-sm transition-all">
                 <DeleteConfirmation itemId={item._id} deleteType="Gear"/>
             </div>
-        <div className="flex max-h-[130px] flex-col gap-1 p-2 md:gap-1"> 
-
+        <div className="flex max-h-[130px] flex-col gap-1 p-2 md:gap-1 border-r-[0.05px] border-l-[0.05px]">
             <div className="flex max-h-[130px] flex-col gap-1 p-2 md:gap-1"> 
                 <Link href={`/gears/${item._id}`}>
                     <p className="p-medium-16 line-clamp-1 flex-1 text-secondary-300 capitalize">{item.title}</p>
