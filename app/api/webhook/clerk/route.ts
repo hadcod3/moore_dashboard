@@ -1,54 +1,52 @@
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
-import { clerkClient } from '@clerk/nextjs'
-import { NextResponse } from 'next/server'
- 
+import { Webhook } from "svix";
+import { headers } from "next/headers";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+
 export async function POST(req: Request) {
- 
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
- 
+  // Get the Clerk Webhook secret from environment variables
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+
   if (!WEBHOOK_SECRET) {
-    throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
+    console.error("Missing WEBHOOK_SECRET in environment variables.");
+    return new NextResponse("Webhook secret not configured", { status: 500 });
   }
- 
+
   // Get the headers
   const headerPayload = headers();
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
- 
-  // If there are no headers, error out
-  if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Error occured -- no svix headers', {
-      status: 400
-    })
+  const svixId = headerPayload.get("svix-id");
+  const svixTimestamp = headerPayload.get("svix-timestamp");
+  const svixSignature = headerPayload.get("svix-signature");
+
+  // Validate presence of required headers
+  if (!svixId || !svixTimestamp || !svixSignature) {
+    console.error("Missing Svix headers.");
+    return new NextResponse("Bad Request: Missing headers", { status: 400 });
   }
- 
-  // Get the body
-  const payload = await req.json()
+
+  // Parse the request body
+  const payload = await req.json();
   const body = JSON.stringify(payload);
- 
-  // Create a new Svix instance with your secret.
-  const wh = new Webhook(WEBHOOK_SECRET);
- 
-  let evt: WebhookEvent
- 
-  // Verify the payload with the headers
+
+  // Initialize Svix webhook handler
+  const webhook = new Webhook(WEBHOOK_SECRET);
+
+  let event: WebhookEvent;
+
   try {
-    evt = wh.verify(body, {
-      "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
-      "svix-signature": svix_signature,
-    }) as WebhookEvent
-  } catch (err) {
-    console.error('Error verifying webhook:', err);
-    return new Response('Error occured', {
-      status: 400
-    })
+    // Verify the webhook payload and headers
+    event = webhook.verify(body, {
+      "svix-id": svixId,
+      "svix-timestamp": svixTimestamp,
+      "svix-signature": svixSignature,
+    }) as WebhookEvent;
+  } catch (error) {
+    console.error("Webhook verification failed:", error);
+    return new NextResponse("Invalid webhook signature", { status: 400 });
   }
- 
-  return new Response('', { status: 200 })
+
+  // TODO: Add your event handling logic here
+  console.log("Webhook event received:", event);
+
+  return new NextResponse("Webhook processed successfully", { status: 200 });
 }
- 
