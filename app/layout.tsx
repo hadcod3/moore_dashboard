@@ -36,11 +36,17 @@ export default function RootLayout({
 }>) {
 
     return (
-        <ClerkProvider>
+        <ClerkProvider >
             <html lang="en">
                 <body className={`${poppins.variable} ${playfair.variable} ${aleo.variable}`}>
                     <SignedOut>
-                        <SignIn />
+                        <div className="w-screen h-screen flex items-center justify-center">
+                            <SignIn  appearance={{
+                                elements: {
+                                footerAction: { display: "none"  },
+                                },
+                            }} />
+                        </div>
                     </SignedOut>
                     <SignedIn>
                         {children}
