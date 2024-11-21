@@ -45,11 +45,11 @@ export default async function Home({ searchParams }: SearchParamProps) {
     return (
         <>
             <section className="flex flex-col gap-4 bg-contain py-4 md:py-6 px-5">
-                <div>
+                <div className='flex w-full justify-between items-center'>
                     <h2 className="h2-bold text-secondary-300 leading-none">Dashboard</h2>
-                    <div className='w-fit py-2 px-5 rounded-full border border-grey-200'><CurrentDateTime/></div>
+                    <div className='w-64 flex items-center justify-center py-2 px-5 rounded-xl border border-grey-200'><CurrentDateTime/></div>
                 </div>
-                <div className='grid gap-2 grid-cols-6'>
+                <div className='grid gap-2 grid-rows-1 grid-cols-6'>
                     <DashboardCard 
                         title="Users" 
                         value={users.length}

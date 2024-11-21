@@ -26,7 +26,7 @@ const SmallCard = ({ item }: ProductProps) => {
                     <p className="p-medium-16 line-clamp-1 flex-1 text-secondary-300 capitalize">{item.name}</p>
                 </Link>
                 <span className="font-semibold text-base text-secondary-400 font-aleo">
-                    Rp {item.price.toLocaleString()}
+                    Rp {item.price.toLocaleString('id-ID')}
                 </span>
                 <div className="flex-between w-full">
                 <p className="p-medium-14 text-primary-200">

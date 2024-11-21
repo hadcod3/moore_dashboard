@@ -7,7 +7,7 @@ export default function Loading() {
     return (
         <div className='w-full h-screen flex items-center justify-center bg-white absolute z-50'>
             <Image
-                src="/assets/icons/logo.png"
+                src="/assets/images/moore_logo_bw.png"
                 alt="Had Wedding Logo"
                 width={50}
                 height={50}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Playfair_Display, Aleo } from "next/font/google";
-// import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn, SignedOut, SignIn, UserButton } from "@clerk/nextjs";
 import "./globals.css";
 
 const poppins = Poppins({ 
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "Moore",
     description: "A wedding organizer agency",
     icons: {
-        icon: '/logo.png',
+        icon: '/ic_web_browser.png',
     }
 };
 
@@ -36,8 +36,17 @@ export default function RootLayout({
 }>) {
 
     return (
-        <html lang="en">
-            <body className={`${poppins.variable} ${playfair.variable} ${aleo.variable}`}>{children}</body>
-        </html>
+        <ClerkProvider>
+            <html lang="en">
+                <body className={`${poppins.variable} ${playfair.variable} ${aleo.variable}`}>
+                    <SignedOut>
+                        <SignIn />
+                    </SignedOut>
+                    <SignedIn>
+                        {children}
+                    </SignedIn>
+                </body>
+            </html>
+        </ClerkProvider>
     );
 }

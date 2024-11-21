@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import { DeleteConfirmation } from './DeleteConfirmation'
@@ -33,7 +34,7 @@ const BigCard = async ({ item }: PacketProps) => {
                 <Link href={`/packets/${item._id}`}>
                     <p className="p-medium-16 md:p-medium-20 line-clamp-2 flex-1 text-secondary-400">{item.name}</p>
                 </Link>
-                <p className="p-bold-20 md:p-bold-24 text-secondary-400 font-aleo">Rp {item.price.toLocaleString()}</p>
+                <h1 className="p-bold-20 md:p-bold-24 text-secondary-400 font-aleo">Rp {item.price.toLocaleString('id-ID')}</h1>
             </div>
         </div>
     )

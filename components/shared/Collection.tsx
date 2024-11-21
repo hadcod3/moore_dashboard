@@ -123,9 +123,9 @@ const Collection = ({
                                 {data.map((item) => (
                                     <li key={item._id} className="flex justify-center">
                                         {collectionType === "Packet" ? (
-                                            <BigCard item={item} />
+                                            <BigCard item={(item as IItem)} />
                                         ) : (
-                                            <SmallCard item={item} />
+                                            <SmallCard item={(item as IItem)} />
                                         )}
                                     </li>
                                 ))}
