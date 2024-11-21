@@ -4,6 +4,10 @@
 
 @layer base {
   :root {
+    --font-poppins: 'Poppins', sans-serif;
+    --font-playfair_display: 'Playfair Display', serif;
+    --font-aleo: 'Aleo', serif;
+    
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -76,6 +80,19 @@
 body {
   font-family: var(--font-poppins);
   user-select: none;
+}
+
+
+.font-poppins {
+  font-family: var(--font-poppins);
+}
+
+.font-playfair_display {
+  font-family: var(--font-playfair_display);
+}
+
+.font-aleo {
+  font-family: var(--font-aleo);
 }
 
 .filter-grey {

@@ -1,75 +1,131 @@
-import { Button } from "@/components/ui/button";
-import { getAllPackets } from "@/lib/actions/packet.actions";
+
+
 import { SearchParamProps } from '@/types';
-import Image from "next/image";
-import Link from "next/link";
-import { getAllProducts } from "@/lib/actions/product.actions";
-import { getAllGears } from "@/lib/actions/gear.actions";
-import PacketCategoryFilter from "@/components/shared/PacketCategoryFilter";
-import CategoryCollection from "@/components/shared/CategoryCollection";
-import PacketCollection from "@/components/shared/PacketCollection";
-import ProductCollection from "@/components/shared/ProductCollection";
-import GearCollection from "@/components/shared/GearCollection";
+import Collection from "@/components/shared/Collection";
+import { getAllItems, getItemsByTypeId } from "@/lib/actions/item.actions";
+import { getAllCategories, getCategoryByTypeId } from "@/lib/actions/category.actions";
+import DashboardCard from '@/components/shared/DashboardCard';
+import { getAllClient, getAllUsers, getAllVendors } from '@/lib/actions/user.actions';
+import { getAllTypes } from '@/lib/actions/type.action';
+import CurrentDateTime from '@/components/shared/CurrentDateTime';
 
 export default async function Home({ searchParams }: SearchParamProps) {
-    const page = Number(searchParams?.page) || 1;
-    const searchText = (searchParams?.query as string) || '';
-    const category = (searchParams?.category as string) || '';
 
-    const packets = await getAllPackets({
-        query: searchText,
-        category,
-        page,
-        limit: 3
+    const packetTypeId = "6717aa0a78fed7ee045a8402" // ID of packet type
+    const productTypeId = "6717aa0a78fed7ee045a8403" // ID of product type
+    const gearTypeId = "6717aa0a78fed7ee045a8401" // ID of gear type
+
+    const users = await getAllUsers();
+    const clients = await getAllClient();
+    const vendors = await getAllVendors();
+    const allItems = await getAllItems()
+    const allCategories = await getAllCategories()
+    const allTypes = await getAllTypes()
+    const packets = await getItemsByTypeId({
+        typeId: packetTypeId,
     })
-    const products = await getAllProducts({
-        query: searchText,
-        category,
-        page,
-        limit: 5
+    const products = await getItemsByTypeId({
+        typeId: productTypeId,
     })
-    const gears = await getAllGears({
-        query: searchText,
-        category,
-        page,
-        limit: 5
+    const gears = await getItemsByTypeId({
+        typeId: gearTypeId,
     })
+    const packetCategories = await getCategoryByTypeId({
+        typeId: packetTypeId,
+    })
+    const productCategories = await getCategoryByTypeId({
+        typeId: productTypeId,
+    })
+    const gearCategories = await getCategoryByTypeId({
+        typeId: gearTypeId,
+    })
+
+    // console.log("Packet Cateories : " , packetCategories)
 
     return (
         <>
             <section className="flex flex-col gap-4 bg-contain py-4 md:py-6 px-5">
-                <h2 className="h2-bold text-secondary-300 mb-7">Dashboard</h2>
-                <CategoryCollection collectionTypes="Packet_Categories"/>
-                <PacketCollection
-                data={packets?.data}
-                emptyTitle="No Packets Found"
-                emptyStateSubtext="Check later"
-                collectionType="Sample_Packets"
-                limit={15}
-                page={page}
-                totalPages={packets?.totalPages}
+                <div>
+                    <h2 className="h2-bold text-secondary-300 leading-none">Dashboard</h2>
+                    <div className='w-fit py-2 px-5 rounded-full border border-grey-200'><CurrentDateTime/></div>
+                </div>
+                <div className='grid gap-2 grid-cols-6'>
+                    <DashboardCard 
+                        title="Users" 
+                        value={users.length}
+                        unit="users"
+                    />
+                    <DashboardCard 
+                        title="Clients" 
+                        value={clients.length}
+                        unit="users"
+                    />
+                    <DashboardCard 
+                        title="Vendors" 
+                        value={vendors.length}
+                        unit="users"
+                    />
+                    <DashboardCard 
+                        title="Products" 
+                        value={allItems.length}
+                        unit="pcs"
+                    />
+                    <DashboardCard 
+                        title="Categories" 
+                        value={allCategories.length}
+                        unit="type"
+                    />
+                    <DashboardCard 
+                        title="Types" 
+                        value={allTypes.length}
+                        unit="type"
+                    />
+                </div>
+                <Collection 
+                    data={packetCategories}
+                    emptyTitle="No Categories of Packets Found"
+                    emptyStateSubtext="Check later"
+                    collectionType="Packet"
+                    isCategory={true}
                 />
-                <CategoryCollection collectionTypes="Product_Categories"/>
-                <ProductCollection
-                    data={products?.data}
+                <Collection
+                    data={packets}
+                    emptyTitle="No Packets Found"
+                    emptyStateSubtext="Check later"
+                    collectionType="Packet"
+                    collectionModel="Sample"
+                    isCategory={false}
+                />
+                <Collection 
+                    data={productCategories}
+                    emptyTitle="No Categories of Products Found"
+                    emptyStateSubtext="Check later"
+                    collectionType="Product"
+                    isCategory={true}
+                />
+                <Collection
+                    data={products}
                     emptyTitle="No Product Found"
                     emptyStateSubtext="Check later"
-                    collectionType="Sample_Products"
-                    limit={30}
-                    page={page}
-                    totalPages={products?.totalPages}
+                    collectionType="Product"
+                    collectionModel="Sample"
+                    isCategory={false}
                 />
-                <CategoryCollection collectionTypes="Gear_Categories"/>
-                <GearCollection
-                    data={gears?.data}
+                <Collection 
+                    data={gearCategories}
+                    emptyTitle="No Categories of Gears Found"
+                    emptyStateSubtext="Check later"
+                    collectionType="Gear"
+                    isCategory={true}
+                />
+                <Collection
+                    data={gears}
                     emptyTitle="No Gear Found"
                     emptyStateSubtext="Check later"
-                    collectionType="Sample_Gears"
-                    limit={30}
-                    page={page}
-                    totalPages={gears?.totalPages}
+                    collectionType="Gear"
+                    collectionModel="Sample"
+                    isCategory={false}
                 />
-                <CategoryCollection collectionTypes="Vendor_Categories"/>
             </section>
         </>
     );

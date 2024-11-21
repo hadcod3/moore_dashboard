@@ -47,12 +47,11 @@ export const formatDateTime = (dateString: Date) => {
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file)
 
-export const formatPrice = (price: string) => {
-  const amount = parseFloat(price)
+export const formatPrice = (price: number) => {
   const formattedPrice = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
-  }).format(amount)
+  }).format(price)
 
   return formattedPrice
 }

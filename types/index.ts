@@ -238,3 +238,11 @@ export type Gear = {
       name: string
     }
 }
+
+// ==========================================================================
+
+export type GetItemsByTypeIdParams = {
+    typeId: string;
+    query?: string;
+    category: string;
+}

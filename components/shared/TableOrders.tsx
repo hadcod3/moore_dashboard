@@ -1,26 +1,18 @@
-import { IOrderItem } from '@/lib/database/models/order.model'
+import { IOrder } from '@/lib/database/models/order.model'
 import React from 'react'
-import Pagination from './Pagination'
 import { TableCell, TableRow } from '../ui/table'
 import TableItem from './TableItem'
 
 type CollectionProps = {
-    data: IOrderItem[],
+    data: IOrder[],
     emptyTitle: string,
     emptyStateSubtext: string,
-    limit: number,
-    page: number | string,
-    totalPages?: number,
-    urlParamName?: string,
 }
 
 const TableOrders = ({
     data,
     emptyTitle,
     emptyStateSubtext,
-    page,
-    totalPages = 0,
-    urlParamName,
   }: CollectionProps) => {
     return (
         <>
@@ -28,13 +20,9 @@ const TableOrders = ({
                 <>
                     {data.map((item) => {
                         return (
-                            <TableItem order={item}/>
+                            <TableItem key={item._id} order={item}/>
                         )
                     })}
-        
-                    {totalPages > 1 && (
-                        <Pagination urlParamName={urlParamName} page={page} totalPages={totalPages} />
-                    )}
                 </>
             ) : (
             <TableRow>

@@ -1,12 +1,16 @@
 import React from 'react'
-import { IOrderItem } from '@/lib/database/models/order.model'
+import { IOrder } from '@/lib/database/models/order.model'
 import { TableCell, TableRow } from '../ui/table'
 import { formatDateTime, formatPrice } from '@/lib/utils'
+import { getUserById } from '@/lib/actions/user.actions'
 
 type OrderProps = {
-    order: IOrderItem
+    order: IOrder
 }
-function TableItem({ order } : OrderProps) {
+const TableItem = async ({ order } : OrderProps) => {
+
+    const buyerData = await getUserById(order.buyer)
+
     return (
             <TableRow
                 className="p-regular-14 lg:p-regular-16 border-b "
@@ -15,9 +19,8 @@ function TableItem({ order } : OrderProps) {
                 <TableCell>
                     {formatDateTime(order.createdAt).dateTime}
                 </TableCell>
-                <TableCell>{order.buyer}</TableCell>
-                <TableCell>{order.item}</TableCell>
-                <TableCell>{order.totalAmount}</TableCell>
+                <TableCell>{buyerData.firstName} {buyerData.lastName}</TableCell>
+                <TableCell>{buyerData.city}</TableCell>
                 <TableCell>
                     {formatPrice(order.totalAmount)}
                 </TableCell>

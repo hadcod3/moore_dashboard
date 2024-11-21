@@ -22,10 +22,10 @@ const aleo = Aleo({
 });
 
 export const metadata: Metadata = {
-    title: "Had Wedding",
+    title: "Moore",
     description: "A wedding organizer agency",
     icons: {
-        icon: '/favicon.ico',
+        icon: '/logo.png',
     }
 };
 

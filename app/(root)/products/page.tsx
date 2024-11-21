@@ -1,19 +1,17 @@
-import ProductCategoryFilter from "@/components/shared/ProductCategoryFilter"
-import ProductCollection from "@/components/shared/ProductCollection"
+import CategoryFilter from "@/components/shared/CategoryFilter"
+import Collection from "@/components/shared/Collection"
 import Search from "@/components/shared/Search"
-import { getAllProducts } from "@/lib/actions/product.actions"
+import { getItemsByTypeId } from "@/lib/actions/item.actions"
 import { SearchParamProps } from "@/types"
  
 const Products = async ({ searchParams }: SearchParamProps) => {
     const page = Number(searchParams?.page) || 1;
     const searchText = (searchParams?.query as string) || '';
     const category = (searchParams?.category as string) || '';
-    
-    const products = await getAllProducts({
-        query: searchText,
-        category,
-        page,
-        limit: 15
+    const productTypeId = "6717aa0a78fed7ee045a8403"
+
+    const products = await getItemsByTypeId({
+        typeId: productTypeId,
     })
 
     return (
@@ -22,20 +20,19 @@ const Products = async ({ searchParams }: SearchParamProps) => {
                 <div>
                     <p className="text-xl font-playfair text-primary-300">collection of</p>
                     <p className="h2-bold text-secondary-300">Product</p>
-                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{products?.data.length} items</p></h3>
+                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{products.length} items</p></h3>
                 </div>
                 <div className="flex w-full flex-col gap-5 py-5 md:flex-row">
                     <Search placeholder="Search"/>
-                    <ProductCategoryFilter/>
+                    <CategoryFilter collectionType="Product"/>
                 </div>
-                <ProductCollection
-                    data={products?.data}
+                <Collection
+                    data={products}
                     emptyTitle="No Product Found"
                     emptyStateSubtext="Check later"
-                    collectionType="All_Products"
-                    limit={15}
-                    page={page}
-                    totalPages={products?.totalPages}
+                    collectionType="Product"
+                    collectionModel="Full_Content"
+                    isCategory={false}
                 />
             </section>
         </>

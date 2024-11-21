@@ -1,15 +1,13 @@
-import { IPacket } from '@/lib/database/models/packet.model'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { DeleteConfirmation } from './DeleteConfirmation'
-import { getUserById } from '@/lib/actions/user.actions'
+import { IItem } from '@/lib/database/models/item.model'
 
 type PacketProps = {
-  item: IPacket
+  item: IItem
 }
  
-const PacketCard = async ({ item }: PacketProps) => {
+const BigCard = async ({ item }: PacketProps) => {
     // const organizerProfile = await getUserById(item.organizer._id);
 
     return (
@@ -32,22 +30,14 @@ const PacketCard = async ({ item }: PacketProps) => {
             </div>
 
             <div className="flex min-h-[150px] flex-col gap-2 p-3 border-r-[0.05px] border-l-[0.05px]">
-                <div className="flex gap-2">
-                    {/* <span className="p-semibold-14 rounded-full border-b border-primary-100 px-4 py-1  text-primary-300">
-                        {organizerProfile.username}
-                    </span> */}
-                    {/* <p className="p-semibold-14 rounded-full border-b border-primary-100 px-4 py-1 text-primary-300 line-clamp-1 absolute">
-                        {item.category?.name}
-                    </p> */}
-                </div>
                 <Link href={`/packets/${item._id}`}>
-                    <p className="p-medium-16 md:p-medium-20 line-clamp-2 flex-1 text-secondary-400">{item.title}</p>
+                    <p className="p-medium-16 md:p-medium-20 line-clamp-2 flex-1 text-secondary-400">{item.name}</p>
                 </Link>
-                <p className="p-bold-20 md:p-bold-24 text-secondary-400 font-aleo">Rp {parseInt(item.price).toLocaleString()}</p>
+                <p className="p-bold-20 md:p-bold-24 text-secondary-400 font-aleo">Rp {item.price.toLocaleString()}</p>
             </div>
         </div>
     )
 }
 
-export default PacketCard
+export default BigCard
 

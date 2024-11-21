@@ -1,5 +1,10 @@
 export const asideLinks = [
     {
+      label: 'Dashboard',
+      route: '/',
+      ic: 'ic_dashboard.png'
+    },
+    {
       label: 'Packets',
       route: '/packets',
       ic: 'ic_packet.png'

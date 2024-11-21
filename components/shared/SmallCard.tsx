@@ -1,15 +1,13 @@
-import { IProduct } from '@/lib/database/models/product.model'
 import Link from 'next/link'
 import React from 'react'
-import { auth } from '@clerk/nextjs'
 import { DeleteConfirmation } from './DeleteConfirmation'
-import Image from 'next/image'
+import { IItem } from '@/lib/database/models/item.model'
 
 type ProductProps = {
-    item: IProduct,
+    item: IItem
 }
 
-const ProductCard = ({ item }: ProductProps) => {
+const SmallCard = ({ item }: ProductProps) => {
     
     return (
         <div className="relative flex min-h-[270px] w-[180px] flex-col overflow-hidden rounded-[15px] bg-white border-b-4 border-primary-200">
@@ -25,10 +23,10 @@ const ProductCard = ({ item }: ProductProps) => {
 
             <div className="flex max-h-[130px] flex-col gap-1 p-2 md:gap-1"> 
                 <Link href={`/products/${item._id}`}>
-                    <p className="p-medium-16 line-clamp-1 flex-1 text-secondary-300 capitalize">{item.title}</p>
+                    <p className="p-medium-16 line-clamp-1 flex-1 text-secondary-300 capitalize">{item.name}</p>
                 </Link>
                 <span className="font-semibold text-base text-secondary-400 font-aleo">
-                    Rp {parseInt(item.price).toLocaleString()}
+                    Rp {item.price.toLocaleString()}
                 </span>
                 <div className="flex-between w-full">
                 <p className="p-medium-14 text-primary-200">
@@ -40,4 +38,4 @@ const ProductCard = ({ item }: ProductProps) => {
     )
 }
 
-export default ProductCard
+export default SmallCard

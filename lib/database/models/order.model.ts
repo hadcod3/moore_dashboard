@@ -1,48 +1,29 @@
-import { Schema, model, models, Document } from 'mongoose'
-
-export interface IOrder extends Document {
-    createdAt: Date
-    stripeId: string
-    totalAmount: string
-    itemId: string
-    itemTitle: string
-    buyerId: string
-    amount: string
-}
- 
-export type IOrderItem = {  
-    _id: string
-    totalPrice: string
-    createdAt: Date
-    item: string
-    // itemTitle: string
-    buyer: string
-    totalAmount: string
+import { Schema, model, models } from 'mongoose'
+   
+export interface IOrder extends Document { 
+    _id: string;
+    stripeId: string;
+    buyer: string;
+    itemsOrder: Array<{_id: string}>;
+    totalAmount: number;
+    shippingAddress: string;
+    createdAt: Date;
 }
 
 const OrderSchema = new Schema({
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    stripeId: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    totalAmount: {
-        type: String, 
-    },
-    item:{
-        type: Schema.Types.ObjectId,
-        ref: 'Packet',
-    },
-    buyer: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-    },
+    stripeId: { type: String, unique: true, sparse: true },
+    buyer: { type: Schema.Types.ObjectId, ref: 'User' },
+    itemsOrder: [
+        {
+            _id: { type: Schema.Types.ObjectId, ref: 'Item' },
+        },
+    ],
+    totalAmount: { type: Number, required: true },
+    shippingAddress: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
 })
-
+   
 const Order = models.Order || model('Order', OrderSchema)
-
+  
 export default Order
+  

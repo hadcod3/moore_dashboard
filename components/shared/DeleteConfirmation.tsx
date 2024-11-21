@@ -15,9 +15,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { deletePacket } from '@/lib/actions/packet.actions'
-import { deleteProduct } from '@/lib/actions/product.actions'
-import { deleteGear } from '@/lib/actions/gear.actions'
 import { Input } from '../ui/input'
 
 type deleteProps = {
@@ -51,17 +48,18 @@ export const DeleteConfirmation = ({ itemId, deleteType } : deleteProps ) => {
             <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction className='bg-danger text-white'
-                onClick={() =>
-                startTransition(async () => {
-                    {deleteType === "Packet" ? (
-                        await deletePacket({ packetId : itemId, path: pathname })
-                    ) : deleteType === "Product" ? (
-                        await deleteProduct({ productId : itemId, path: pathname })
-                    ) : (
-                        await deleteGear({ gearId : itemId, path: pathname })
-                    )}
-                })
-                }>
+                // onClick={() =>
+                // startTransition(async () => {
+                //     {deleteType === "Packet" ? (
+                //         await deletePacket({ packetId : itemId, path: pathname })
+                //     ) : deleteType === "Product" ? (
+                //         await deleteProduct({ productId : itemId, path: pathname })
+                //     ) : (
+                //         await deleteGear({ gearId : itemId, path: pathname })
+                //     )}
+                // })
+                // }
+                >
                 {isPending ? 'Deleting...' : 'Delete'}
             </AlertDialogAction>
             </AlertDialogFooter>

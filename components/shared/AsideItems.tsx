@@ -9,7 +9,7 @@ const AsideItems = () => {
     const pathname = usePathname();
 
     return (
-        <ul className='flex items-center justify-center flex-col h-40'>
+        <ul className='flex items-center justify-center flex-col gap-y-4'>
             {asideLinks.map((link) => {
                 const isActive = pathname === link.route
                 return (
