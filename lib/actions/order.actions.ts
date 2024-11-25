@@ -11,9 +11,7 @@ export async function getAllOrders() {
         await connectToDatabase()
         const orders = await Order.find().lean()
     
-        return {
-            data: JSON.parse(JSON.stringify(orders))
-        }
+        return JSON.parse(JSON.stringify(orders))
     } catch (error) {
         handleError(error)
     }

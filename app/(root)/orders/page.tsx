@@ -32,7 +32,7 @@ const Orders = async () => {
                     </TableHeader>
                     <TableBody>
                         <TableOrders
-                        data={orders?.data}
+                        data={orders}
                         emptyTitle="No Orders Found"
                         emptyStateSubtext="Check later"
                         />

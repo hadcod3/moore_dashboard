@@ -5,24 +5,24 @@ import { formatDateTime, formatPrice } from '@/lib/utils'
 import { getUserById } from '@/lib/actions/user.actions'
 
 type OrderProps = {
-    order: IOrder
+    data: IOrder
 }
-const TableItem = async ({ order } : OrderProps) => {
+const TableItem = async ({ data } : OrderProps) => {
 
-    const buyerData = await getUserById(order.buyer)
+    const buyerData = await getUserById(data.buyer)
 
     return (
             <TableRow
                 className="p-regular-14 lg:p-regular-16 border-b "
                 style={{ boxSizing: 'border-box' }}>
-                <TableCell className="text-primary-500">{order._id}</TableCell>
+                <TableCell>{data._id}</TableCell>
                 <TableCell>
-                    {formatDateTime(order.createdAt).dateTime}
+                    {formatDateTime(data.createdAt).dateTime}
                 </TableCell>
                 <TableCell>{buyerData.firstName} {buyerData.lastName}</TableCell>
                 <TableCell>{buyerData.city}</TableCell>
                 <TableCell>
-                    {formatPrice(order.totalAmount)}
+                    {formatPrice(data.totalAmount)}
                 </TableCell>
             </TableRow>
     )

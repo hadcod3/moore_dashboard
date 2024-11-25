@@ -1,15 +1,15 @@
-import { IOrder } from '@/lib/database/models/order.model'
 import React from 'react'
 import { TableCell, TableRow } from '../ui/table'
-import TableItem from './TableItem'
+import { IUser } from '@/lib/database/models/user.model'
+import TableUser from './TableUser'
 
 type CollectionProps = {
-    data: IOrder[],
+    data: IUser[],
     emptyTitle: string,
     emptyStateSubtext: string,
 }
 
-const TableOrders = ({
+const TableUsers = ({
     data,
     emptyTitle,
     emptyStateSubtext,
@@ -20,7 +20,7 @@ const TableOrders = ({
                 <>
                     {data.map((item) => {
                         return (
-                            <TableItem key={item._id} data={item}/>
+                            <TableUser key={item._id} data={item}/>
                         )
                     })}
                 </>
@@ -36,4 +36,4 @@ const TableOrders = ({
     )
   }
 
-export default TableOrders
+export default TableUsers

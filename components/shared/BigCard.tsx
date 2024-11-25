@@ -12,10 +12,10 @@ const BigCard = async ({ item }: PacketProps) => {
     // const organizerProfile = await getUserById(item.organizer._id);
 
     return (
-        <div className="group relative flex min-h-[350px] w-full max-w-[400px] flex-col overflow-hidden rounded-[15px] bg-white border-b-4 border-primary-200">
+        <div className="group relative flex min-h-[350px] w-full max-w-[400px] flex-col overflow-hidden rounded-[15px] bg-white border border-gray-200 shadow-md">
             
-            <div className='overflow-visible border-white bg-white border-b-[7px] border-r-[7px] absolute after:absolute after:top-0 after:right-[-19.5px] after:w-[13px] after:h-[13px] rounded-br-2xl after:bg-transparent after:z-10 after:rounded-tl-full after:shadow-white after:shadow-br-curve before:absolute before:bottom-[-19.5px] before:left-0 before:w-[13px] before:h-[13px] before:bg-transparent before:rounded-tl-full before:shadow-white before:shadow-br-curve before:z-10'>
-                <p className="p-semibold-14 px-4 py-1 text-white line-clamp-1 rounded-[15px] bg-primary-300/80">
+            <div className='absolute top-2 left-2 '>
+                <p className="p-semibold-14 px-4 py-1 text-white line-clamp-1 rounded-xl bg-black/30">
                     {item.category?.name}
                 </p>
             </div>

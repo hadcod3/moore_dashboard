@@ -24,6 +24,11 @@ export const asideLinks = [
       route: '/orders',
       ic: 'ic_invoice.png'
     },
+    {   
+      label: 'Users',
+      route: '/users',
+      ic: 'ic_user.png'
+    },
 ]
 
 export const imageList = [
@@ -48,7 +53,7 @@ export const imageList = [
         imageLoc: 'image-5.jpg'
     },
 ]
-  
+
 export const packetDefaultValues = {
     title: '',
     description: '',
