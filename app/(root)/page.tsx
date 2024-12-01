@@ -1,6 +1,3 @@
-
-
-import { SearchParamProps } from '@/types';
 import Collection from "@/components/shared/Collection";
 import { getAllItems, getItemsByTypeId } from "@/lib/actions/item.actions";
 import { getAllCategories, getCategoryByTypeId } from "@/lib/actions/category.actions";
@@ -9,7 +6,7 @@ import { getAllClient, getAllUsers, getAllVendors } from '@/lib/actions/user.act
 import { getAllTypes } from '@/lib/actions/type.action';
 import CurrentDateTime from '@/components/shared/CurrentDateTime';
 
-export default async function Home({ searchParams }: SearchParamProps) {
+export default async function Home() {
 
     const packetTypeId = "6717aa0a78fed7ee045a8402" // ID of packet type
     const productTypeId = "6717aa0a78fed7ee045a8403" // ID of product type
