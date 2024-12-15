@@ -12,13 +12,13 @@ const SmallCard = ({ item }: ProductProps) => {
     return (
         <div className="relative flex min-h-[270px] w-[180px] flex-col overflow-hidden rounded-[15px] bg-white border border-gray-200 shadow-md">
             <Link 
-                href={`/products/${item._id}`}
+                href={`/items/${item._id}`}
                 style={{backgroundImage: `url(${item.imageUrl})`}}
                 className="flex-center flex-grow bg-gray-50 bg-cover bg-no-repeat bg-center text-grey-500 w-full max-h-[180px]"
             />
 
             <div className="absolute right-2 top-2 flex flex-col gap-4 rounded-xl  bg-white/30 p-3 backdrop-blur-lg shadow-sm transition-all">
-              <DeleteConfirmation itemId={item._id} deleteType="Product"/>
+                <DeleteConfirmation itemId={item._id} vendorId={item.organizer._id}/>
             </div>
 
             <div className="flex max-h-[130px] flex-col gap-1 p-2 md:gap-1"> 

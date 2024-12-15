@@ -12,6 +12,10 @@ const Gears = async ({ searchParams }: SearchParamProps) => {
 
     const gears = await getItemsByTypeId({
         typeId: gearTypeId,
+        query: searchText,
+        category,
+        page,
+        limit: 15
     })
 
     return (
@@ -20,19 +24,22 @@ const Gears = async ({ searchParams }: SearchParamProps) => {
                 <div>
                     <p className="text-xl font-playfair text-primary-300">collection of</p>
                     <p className="h2-bold text-secondary-300">Gear</p>
-                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{gears.length} items</p></h3>
+                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{gears.data.length} items</p></h3>
                 </div>
                 <div className="flex w-full flex-col gap-5 py-5 md:flex-row">
                     <Search placeholder="Search"/>
-                    <CategoryFilter collectionType="Gear"/>
+                    <CategoryFilter typeId={gearTypeId}/>
                 </div>
                 <Collection
-                    data={gears}
+                    data={gears?.data}
                     emptyTitle="No Gears Found"
                     emptyStateSubtext="Check later"
                     collectionType="Gear"
                     collectionModel="Full_Content"
                     isCategory={false}
+                    limit={15}
+                    page={page}
+                    totalPages={gears?.totalPages}
                 />
             </section>
             </>

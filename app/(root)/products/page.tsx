@@ -12,6 +12,10 @@ const Products = async ({ searchParams }: SearchParamProps) => {
 
     const products = await getItemsByTypeId({
         typeId: productTypeId,
+        query: searchText,
+        category,
+        page,
+        limit: 15
     })
 
     return (
@@ -20,19 +24,22 @@ const Products = async ({ searchParams }: SearchParamProps) => {
                 <div>
                     <p className="text-xl font-playfair text-primary-300">collection of</p>
                     <p className="h2-bold text-secondary-300">Product</p>
-                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{products.length} items</p></h3>
+                    <h3 className="flex items-center gap-1 text-secondary-400">total :<p className="font-aleo">{products.data.length} items</p></h3>
                 </div>
                 <div className="flex w-full flex-col gap-5 py-5 md:flex-row">
                     <Search placeholder="Search"/>
-                    <CategoryFilter collectionType="Product"/>
+                    <CategoryFilter typeId={productTypeId}/>
                 </div>
                 <Collection
-                    data={products}
+                    data={products.data}
                     emptyTitle="No Product Found"
                     emptyStateSubtext="Check later"
                     collectionType="Product"
                     collectionModel="Full_Content"
                     isCategory={false}
+                    limit={15}
+                    page={page}
+                    totalPages={products?.totalPages}
                 />
             </section>
         </>

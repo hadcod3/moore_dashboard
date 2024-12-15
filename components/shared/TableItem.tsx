@@ -8,7 +8,6 @@ type OrderProps = {
     data: IOrder
 }
 const TableItem = async ({ data } : OrderProps) => {
-
     const buyerData = await getUserById(data.buyer)
 
     return (

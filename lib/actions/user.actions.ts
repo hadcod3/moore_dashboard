@@ -47,12 +47,12 @@ export async function getAllVendors() {
   }
 }
 
-// Get user by id
-export async function getUserById(userId: string) {
+// Get User by id
+export async function getUserById(_id: string) {
   try {
     await connectToDatabase()
 
-    const user = await User.findById(userId)
+    const user = await User.findById(_id)
 
     if (!user) throw new Error('User not found')
     return JSON.parse(JSON.stringify(user))

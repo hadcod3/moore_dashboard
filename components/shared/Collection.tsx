@@ -18,7 +18,9 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Input } from '../ui/input';
 import { IItemCategory } from '@/lib/database/models/itemCategory.model';
-import { createItemCategory } from '@/lib/actions/category.actions';
+import { createItemCategory, deleteCategoryById } from '@/lib/actions/category.actions';
+import { categoryFormSchema } from '@/lib/validator';
+import { HiOutlineXMark } from "react-icons/hi2";
 
 type CollectionProps = {
   data: IItem[] | IItemCategory[],
@@ -26,7 +28,10 @@ type CollectionProps = {
   emptyStateSubtext: string,
   collectionType?: 'Packet' | 'Product' | 'Gear',
   collectionModel?: "Sample" | "Full_Content",
-  isCategory: boolean
+  isCategory: boolean,
+  limit?: number,
+  page?: number | string,
+  totalPages?: number,
 };
 
 const Collection = ({
@@ -35,7 +40,9 @@ const Collection = ({
     emptyStateSubtext,
     collectionType,
     collectionModel,
-    isCategory
+    isCategory,
+    page,
+    totalPages = 0,
 }: CollectionProps) => {
     
     const type = collectionType === "Packet" ? "Packets" : collectionType === "Product" ? "Products" : "Gears";
@@ -45,17 +52,36 @@ const Collection = ({
       ? "grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" 
       : "gap-5 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5";
     const [newCategory, setNewCategory] = useState('');
+    const [editCategory, setEditCategory] = useState(false);
     const [categories, setCategories] = useState<IItemCategory[]>(data as IItemCategory[]);
 
     const handleAddCategory = async () => {
         try {
-          let category: IItemCategory;
-          category = await createItemCategory({ name: newCategory.trim().toLowerCase(), typeFor: typeId})
-          setCategories(prevState => [...prevState, category]);
+            // Validate the new category input
+            categoryFormSchema.parse({ name: newCategory });
+        
+            // Proceed with the category creation
+            const category: IItemCategory = await createItemCategory({
+              name: newCategory.trim().toLowerCase(),
+              typeFor: typeId,
+            });
+        
+            // Update the category list in state
+            setCategories((prevState) => [...prevState, category]);
+            setNewCategory(''); // Clear input field
         } catch (error) {
           console.error('Error adding category:', error);
         }
     };
+
+    const handleDeleteCategory = async (id: string) => {
+        try {
+            await deleteCategoryById(id);
+            setCategories((prevState) => prevState.filter((category) => category._id !== id));
+        } catch (error) {
+          console.error('Error delete category:', error);
+        }
+    }
 
     return (
         <>
@@ -69,27 +95,51 @@ const Collection = ({
                             </h1>
                             <h3 className="flex items-center gap-1">total :<p className="font-aleo">{categories.length} categories</p></h3>
                         </div>
-                        <AlertDialog>
-                            <AlertDialogTrigger className="p-medium-14 flex w-fit h-fit rounded-sm p-3 button-ic">+ Add New Category</AlertDialogTrigger>
-                            <AlertDialogContent className="bg-white">
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>New {type} Category</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                <Input type="text" placeholder="Category name" className="input-field mt-3" onChange={(e) => setNewCategory(e.target.value)} />
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction className="bg-primary-500 text-white" onClick={() => startTransition(() => { handleAddCategory(); })}>Add</AlertDialogAction>
-                            </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <div className='flex gap-x-2'>
+                            <Button className='button-ic' size="lg"  onClick={() => setEditCategory((prev) => !prev)}>
+                                {editCategory ? "Done" : "Edit"}
+                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger className="button-ic">+ Add New Category</AlertDialogTrigger>
+                                <AlertDialogContent className="bg-white">
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>New {type} Category</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                    <Input type="text" placeholder="Category name" className="input-field mt-3" onChange={(e) => setNewCategory(e.target.value)} />
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel className='button'>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction disabled={!newCategory.trim()} className="button-recolorable bg-secondary-200 hover:bg-secondary-300 text-white hover:text-white" onClick={() => startTransition(() => { handleAddCategory(); })}>Add</AlertDialogAction>
+                                </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </div>
                     </div>
                     {categories.length > 0 ? (
                       <div className="flex gap-4 flex-wrap items-start">
                         {categories.map((category) => {
                             return (
-                              <h1 key={category._id} className="chip line-clamp-1">{category.name}</h1>
+                              <div key={category._id} className="badge">
+                                <h1 className='line-clamp-1'>{category.name}</h1>
+                                {editCategory && (
+                                    <AlertDialog>
+                                    <AlertDialogTrigger><HiOutlineXMark /></AlertDialogTrigger>
+                                    <AlertDialogContent className="bg-white">
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Delete Category</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            <AlertDialogContent>Are you sure to delete this category</AlertDialogContent>
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel className='button'>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction className="button-recolorable bg-red-600 hover:bg-red-700 text-white hover:text-white" onClick={() => handleDeleteCategory(category._id)}>Delete</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                                )}
+                            </div>
                             )
                           })}
                       </div>
@@ -111,7 +161,7 @@ const Collection = ({
                                     total: <p className="font-aleo">{data.length} items</p>
                                 </h3>
                             </div>
-                            <Button size="lg" asChild className="button-ic w-full sm:w-fit hover:bg-primary-200 transition-colors duration-200 ease-in-out">
+                            <Button size="lg" asChild className="button-ic">
                                 <Link href={linkHref}>See More {type}</Link>
                             </Button>
                         </div>

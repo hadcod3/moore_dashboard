@@ -5,8 +5,12 @@ import DashboardCard from '@/components/shared/DashboardCard';
 import { getAllClient, getAllUsers, getAllVendors } from '@/lib/actions/user.actions';
 import { getAllTypes } from '@/lib/actions/type.action';
 import CurrentDateTime from '@/components/shared/CurrentDateTime';
+import { SearchParamProps } from "@/types";
 
-export default async function Home() {
+export default async function Home({ searchParams }: SearchParamProps) {
+    const page = Number(searchParams?.page) || 1;
+    const searchText = (searchParams?.query as string) || '';
+    const category = (searchParams?.category as string) || '';
 
     const packetTypeId = "6717aa0a78fed7ee045a8402" // ID of packet type
     const productTypeId = "6717aa0a78fed7ee045a8403" // ID of product type
@@ -18,14 +22,27 @@ export default async function Home() {
     const allItems = await getAllItems()
     const allCategories = await getAllCategories()
     const allTypes = await getAllTypes()
+   
     const packets = await getItemsByTypeId({
         typeId: packetTypeId,
+        query: searchText,
+        category,
+        page,
+        limit: 3
     })
     const products = await getItemsByTypeId({
         typeId: productTypeId,
+        query: searchText,
+        category,
+        page,
+        limit: 5
     })
     const gears = await getItemsByTypeId({
         typeId: gearTypeId,
+        query: searchText,
+        category,
+        page,
+        limit: 5
     })
     const packetCategories = await getCategoryByTypeId({
         typeId: packetTypeId,
@@ -36,8 +53,6 @@ export default async function Home() {
     const gearCategories = await getCategoryByTypeId({
         typeId: gearTypeId,
     })
-
-    // console.log("Packet Cateories : " , packetCategories)
 
     return (
         <>
@@ -70,12 +85,12 @@ export default async function Home() {
                     <DashboardCard 
                         title="Categories" 
                         value={allCategories.length}
-                        unit="type"
+                        unit="types"
                     />
                     <DashboardCard 
                         title="Types" 
                         value={allTypes.length}
-                        unit="type"
+                        unit="types"
                     />
                 </div>
                 <Collection 
@@ -86,7 +101,7 @@ export default async function Home() {
                     isCategory={true}
                 />
                 <Collection
-                    data={packets}
+                    data={packets.data}
                     emptyTitle="No Packets Found"
                     emptyStateSubtext="Check later"
                     collectionType="Packet"
@@ -101,7 +116,7 @@ export default async function Home() {
                     isCategory={true}
                 />
                 <Collection
-                    data={products}
+                    data={products.data}
                     emptyTitle="No Product Found"
                     emptyStateSubtext="Check later"
                     collectionType="Product"
@@ -116,7 +131,7 @@ export default async function Home() {
                     isCategory={true}
                 />
                 <Collection
-                    data={gears}
+                    data={gears.data}
                     emptyTitle="No Gear Found"
                     emptyStateSubtext="Check later"
                     collectionType="Gear"
