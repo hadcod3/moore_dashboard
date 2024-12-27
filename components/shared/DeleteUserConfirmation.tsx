@@ -14,7 +14,6 @@ import {
 import { clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { deleteUserById, getUserById } from '@/lib/actions/user.actions'
-import { auth } from '@clerk/nextjs'
 
 type deleteProps = {
     userId: string;
@@ -38,10 +37,8 @@ export const DeleteUserConfirmation = ({ userId, clerkId } : deleteProps ) => {
 
     return (
         <AlertDialog>
-        <AlertDialogTrigger>
-            <div className='button p-3'>
-                <Image src="/assets/icons/delete.svg" alt="edit" width={20} height={20} />
-            </div>
+        <AlertDialogTrigger className='button p-3'>
+            <Image src="/assets/icons/delete.svg" alt="edit" width={20} height={20} />
         </AlertDialogTrigger>
 
         <AlertDialogContent className="bg-white">
@@ -54,10 +51,6 @@ export const DeleteUserConfirmation = ({ userId, clerkId } : deleteProps ) => {
 
             <AlertDialogFooter>
             <AlertDialogCancel className='button'>Cancel</AlertDialogCancel>
-            <AlertDialogAction className='bg-danger'
-                onClick={() => console.log(userId,": user id", clerkId,": clerkId")} >
-                    click me
-            </AlertDialogAction>
             <AlertDialogAction 
                 className='button-recolorable bg-red-600 hover:bg-red-700 text-white hover:text-white'
                 onClick={() => handleDeleteItem(userId, clerkId)}

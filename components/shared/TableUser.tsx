@@ -2,7 +2,6 @@ import React from 'react'
 import { TableCell, TableRow } from '../ui/table'
 import { IUser } from '@/lib/database/models/user.model'
 import { DeleteUserConfirmation } from './DeleteUserConfirmation'
-import { getUserById } from '@/lib/actions/user.actions'
 
 type OrderProps = {
     data: IUser
@@ -14,9 +13,6 @@ const TableUser = async ({ data } : OrderProps) => {
                 className="p-regular-14 lg:p-regular-16 border-b "
                 style={{ boxSizing: 'border-box' }}>
                 <TableCell>{data._id}</TableCell>
-                {/* Delete later */}
-                <TableCell>{data.clerkId}</TableCell> 
-                
                 <TableCell>{data.email}</TableCell>
                 <TableCell>{data.username}</TableCell>
                 <TableCell>{data.city}</TableCell>
