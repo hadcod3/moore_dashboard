@@ -17,21 +17,19 @@ import { deleteUserById, getUserById } from '@/lib/actions/user.actions'
 import { auth } from '@clerk/nextjs'
 
 type deleteProps = {
-    id: string
+    userId: string;
+    clerkId: string;
 }
 
-export const DeleteUserConfirmation = async ({ id } : deleteProps ) => {
-    const user = await getUserById(id);
-    const userId = id
-    const clerkId = user.clerkId
+export const DeleteUserConfirmation = ({ userId, clerkId } : deleteProps ) => {
 
-    const handleDeleteItem = async (id: string) => {
+    const handleDeleteItem = async (userId: string, clerkId: string) => {
         try {
             // Delete from clerk data
-            await clerkClient.users.deleteUser(id)
+            await clerkClient.users.deleteUser(clerkId)
             // Delete from database
-            await deleteUserById(id)
-            return NextResponse.json({ message: `User deleted ${id}` })
+            await deleteUserById(userId)
+            return NextResponse.json({ message: `User deleted ${userId} : userId | ${clerkId} : clerkId` })
           } catch (error) {
             console.log(error)
             return NextResponse.json({ error: 'Error deleting user' })
@@ -62,7 +60,7 @@ export const DeleteUserConfirmation = async ({ id } : deleteProps ) => {
             </AlertDialogAction>
             <AlertDialogAction 
                 className='button-recolorable bg-red-600 hover:bg-red-700 text-white hover:text-white'
-                onClick={() => handleDeleteItem(id)}
+                onClick={() => handleDeleteItem(userId, clerkId)}
             >
                 Delete
             </AlertDialogAction>
