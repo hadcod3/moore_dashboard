@@ -28,6 +28,7 @@ const Users = async () => {
                             <TableHead>City</TableHead>
                             <TableHead>Address</TableHead>
                             <TableHead>isVendor</TableHead>
+                            <TableHead>Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

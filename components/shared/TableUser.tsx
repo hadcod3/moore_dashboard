@@ -1,6 +1,7 @@
 import React from 'react'
 import { TableCell, TableRow } from '../ui/table'
 import { IUser } from '@/lib/database/models/user.model'
+import { DeleteUserConfirmation } from './DeleteUserConfirmation'
 
 type OrderProps = {
     data: IUser
@@ -22,6 +23,9 @@ const TableUser = async ({ data } : OrderProps) => {
                     ):(
                         "No"
                     )}
+                </TableCell>
+                <TableCell>
+                    <DeleteUserConfirmation id={data._id}/>
                 </TableCell>
             </TableRow>
     )

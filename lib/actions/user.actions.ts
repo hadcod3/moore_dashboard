@@ -60,3 +60,12 @@ export async function getUserById(_id: string) {
     handleError(error)
   }
 }
+// Get User by id
+export async function deleteUserById(_id: string) {
+  try {
+    await connectToDatabase()
+    const user = await User.findOneAndDelete({_id});
+  } catch (error) {
+    handleError(error)
+  }
+}
