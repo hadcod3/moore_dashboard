@@ -13,13 +13,17 @@ import {
 } from '@/components/ui/alert-dialog'
 import { clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { deleteUserById } from '@/lib/actions/user.actions'
+import { deleteUserById, getUserById } from '@/lib/actions/user.actions'
+import { auth } from '@clerk/nextjs'
 
 type deleteProps = {
     id: string
 }
 
-export const DeleteUserConfirmation = ({ id } : deleteProps ) => {
+export const DeleteUserConfirmation = async ({ id } : deleteProps ) => {
+    const user = await getUserById(id);
+    const userId = id
+    const clerkId = user.clerkId
 
     const handleDeleteItem = async (id: string) => {
         try {
@@ -53,7 +57,7 @@ export const DeleteUserConfirmation = ({ id } : deleteProps ) => {
             <AlertDialogFooter>
             <AlertDialogCancel className='button'>Cancel</AlertDialogCancel>
             <AlertDialogAction className='bg-danger'
-                onClick={() => console.log(id,": id", id,": clerkId")} >
+                onClick={() => console.log(userId,": user id", clerkId,": clerkId")} >
                     click me
             </AlertDialogAction>
             <AlertDialogAction 
