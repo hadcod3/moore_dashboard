@@ -37,7 +37,9 @@ export const DeleteUserConfirmation = ({ id } : deleteProps ) => {
     return (
         <AlertDialog>
         <AlertDialogTrigger>
-            <Image src="/assets/icons/delete.svg" alt="edit" width={20} height={20} />
+            <div className='button p-3'>
+                <Image src="/assets/icons/delete.svg" alt="edit" width={20} height={20} />
+            </div>
         </AlertDialogTrigger>
 
         <AlertDialogContent className="bg-white">
